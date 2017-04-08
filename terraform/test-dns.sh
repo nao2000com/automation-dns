@@ -7,5 +7,7 @@ if [ $? -eq 0 ]; then
 else
   RES="false"
 fi
-echo "<<RESULT>>"
-echo "www.centossrv.com,$RES"
+echo "RESULT <BR>" > result.html
+echo "www.centossrv.com,$RES" >> result.html
+
+aws s3 cp result.html s3://automation-dns
