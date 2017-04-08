@@ -1,0 +1,47 @@
+---
+# tasks file for dns
+- name: bind install
+  yum:
+    name: "{{ item }}"
+  with_items:
+    - bind
+    - bind-chroot
+
+- name: bind sysconfig file
+  template:
+    src: named.j2
+    dest: /etc/sysconfig/named 
+
+- name: bind zone file (inside)
+  template:
+    src: named.j2.centossrv.com.zone
+    dest: /etc/named/named.centossrv.com.zone
+
+- name: bind zone file (outside)
+  template:
+    src: named.j2.centossrv.com.zone.wan
+    dest: /etc/named/named.centossrv.com.zone.wan
+
+- name: bind record file (inside)
+  template:
+    src: centossrv.j2.com.db
+    dest: /etc/named/centossrv.com.db
+    validate: named-checkzone centossrv.com %s
+
+- name: bind record file (outside)
+  template:
+    src: centossrv.j2.com.db.wan
+    dest: /etc/named/centossrv.com.db.wan
+    validate: named-checkzone centossrv.com %s
+
+- name: bind config file
+  template:
+    src: named.j2.conf
+    dest: /etc/named.conf
+    validate: named-checkconf %s
+
+- name: bind start
+  service:
+    name: named
+    state: started
+    enabled: true

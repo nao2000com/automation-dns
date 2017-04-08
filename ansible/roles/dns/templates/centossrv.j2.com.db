@@ -1,0 +1,11 @@
+$TTL    86400
+@       IN      SOA     centossrv.com.  root.centossrv.com.(
+                                      2011062001 ; Serial
+                                      28800      ; Refresh
+                                      14400      ; Retry
+                                      3600000    ; Expire
+                                      86400 )    ; Minimum
+        IN NS    centossrv.com.
+        IN MX 10 centossrv.com.
+@       IN A     192.168.1.3
+*       IN A     192.168.1.3

@@ -1,0 +1,4 @@
+zone "centossrv.com" {
+        type master;
+        file "/etc/named/centossrv.com.db";
+};

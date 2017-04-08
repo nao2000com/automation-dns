@@ -10,6 +10,9 @@
     - name: common
       tags:
         - common
+    - name: dns
+      tags:
+        - dns
 
 - name: mod dns-master hostname
   hosts: dns-master
