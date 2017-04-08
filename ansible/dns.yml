@@ -1,0 +1,24 @@
+---
+- name: make ec2 on dns
+  hosts: dns-master dns-slave
+  become: true
+  vars:
+    db_name: wordpress
+    db_user: wordpress
+    db_password: password
+  roles:
+    - name: common
+      tags:
+        - common
+
+- name: mod dns-master hostname
+  hosts: dns-master
+  become: true
+  tasks:
+    - hostname: name=dns-master
+
+- name: mod dns-slave hostname
+  hosts: dns-slave
+  become: true
+  tasks:
+    - hostname: name=dns-slave

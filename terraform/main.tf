@@ -107,11 +107,11 @@ resource "aws_security_group_rule" "ssh" {
     security_group_id = "${aws_security_group.app.id}"
 }
  
-resource "aws_security_group_rule" "web" {
+resource "aws_security_group_rule" "dns" {
     type              = "ingress"
-    from_port         = 80
-    to_port           = 80
-    protocol          = "tcp"
+    from_port         = 53
+    to_port           = 53
+    protocol          = "udp"
     cidr_blocks       = ["0.0.0.0/0"]
     security_group_id = "${aws_security_group.app.id}"
 }
@@ -125,7 +125,7 @@ resource "aws_security_group_rule" "all" {
     security_group_id = "${aws_security_group.app.id}"
 }
 
-resource "aws_instance" "web1" {
+resource "aws_instance" "dns-master" {
     ami                         = "ami-56d4ad31"
     instance_type               = "t2.micro"
     key_name                    = "${var.aws_key_name}"
@@ -146,12 +146,12 @@ resource "aws_instance" "web1" {
     }
 }
 
-resource "aws_eip" "web1" {
-  instance = "${aws_instance.web1.id}"
+resource "aws_eip" "dns-master" {
+  instance = "${aws_instance.dns-master.id}"
   vpc      = true
 }
 
-resource "aws_instance" "web2" {
+resource "aws_instance" "dns-slave" {
     ami                         = "ami-56d4ad31"
     instance_type               = "t2.micro"
     key_name                    = "nao-key"
@@ -172,16 +172,16 @@ resource "aws_instance" "web2" {
     }
 }
 
-resource "aws_eip" "web2" {
-  instance = "${aws_instance.web2.id}"
+resource "aws_eip" "dns-slave" {
+  instance = "${aws_instance.dns-slave.id}"
   vpc      = true
 }
 
-output "elastic_ip_of_web1" {
-    value = "${aws_eip.web1.public_ip}"
+output "elastic_ip_of_dns-master" {
+    value = "${aws_eip.dns-master.public_ip}"
 }
 
-output "elastic_ip_of_web2" {
-    value = "${aws_eip.web2.public_ip}"
+output "elastic_ip_of_dns-slave" {
+    value = "${aws_eip.dns-slave.public_ip}"
  }
 
