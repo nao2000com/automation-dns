@@ -183,5 +183,5 @@ output "elastic_ip_of_web1" {
 
 output "elastic_ip_of_web2" {
     value = "${aws_eip.web2.public_ip}"
- }
+}
 
