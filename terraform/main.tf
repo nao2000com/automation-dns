@@ -183,5 +183,5 @@ output "elastic_ip_of_dns-master" {
 
 output "elastic_ip_of_dns-slave" {
     value = "${aws_eip.dns-slave.public_ip}"
-}
+ }
 
